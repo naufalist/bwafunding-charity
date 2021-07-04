@@ -1,11 +1,17 @@
 <script>
+  import {
+    onMount,
+    onDestroy,
+    beforeUpdate,
+    afterUpdate
+  } from 'svelte';
+  import Modal from './Modal.svelte';
+
   export let charities;
   let isModalOpen = false;
 
-  import Modal from './Modal.svelte';
-
   function calculateFunded(pledged, target) {
-    return Math.round((1 / (target/pledged)) * 100);
+    return Math.round((1 / (target / pledged)) * 100);
   }
 
   function formatCurrency(nominal) {
@@ -35,14 +41,15 @@
   .xs-list-with-content {
     font-size: 12px;
   }
+
   .show {
     display: block;
     background-color: rgba(0, 0, 0, 0.45);
   }
 </style>
 
- <!-- popularCauses section -->
- <section id="popularcause" class="bg-gray waypoint-tigger xs-section-padding">
+<!-- popularCauses section -->
+<section id="popularcause" class="bg-gray waypoint-tigger xs-section-padding">
   <div class="container">
     <div class="xs-heading row xs-mb-60">
       <div class="col-md-9 col-xl-9">
@@ -52,7 +59,7 @@
           raise capital from anyone.</p>
       </div><!-- .xs-heading-title END -->
     </div><!-- .row end -->
-    
+
     {#if charities !== undefined}
       {#each charities as charity}
         <div class="row">
