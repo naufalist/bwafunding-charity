@@ -1,41 +1,48 @@
 <script>
   import {
     onMount,
-    onDestroy,
-    beforeUpdate,
-    afterUpdate
+    // onDestroy,
+    // beforeUpdate,
+    // afterUpdate
   } from 'svelte';
   import Header from '../components/Header.svelte';
   import Footer from '../components/Footer.svelte';
-  import {
-    charities
-  } from '../data/charities.js';
+  // import {
+  //   charities
+  // } from '../data/charities.js';
 
   export let params;
-  let data, seconds = 0;
+  // let data
+  let charity;
+  // let seconds = 0;
 
-  function getCharity(id) {
-    return charities.find(function(charity) {
-      return charity.id === parseInt(id);
-    });
+  async function getCharity(id) {
+    const res = await fetch(`https://charity-api-bwa.herokuapp.com/charities/${id}`);
+    return res.json();
+
+    // return charities.find(function(charity) {
+    //   return charity.id === parseInt(id);
+    // });
   }
 
-  onMount(() => {
-    console.log("onMountDonation")
-    setTimeout(function() {
-      data = getCharity(params.id);
-    }, 2500)
+  onMount(async function() {
+    charity = await getCharity(params.id)
+
+    // console.log("onMountDonation")
+    // setTimeout(function() {
+    //   data = getCharity(params.id);
+    // }, 2500)
   });
 
-  const tick = setInterval(() => {
-    seconds += 1;
-    console.log(seconds);
-  }, 1000);
+  // const tick = setInterval(() => {
+  //   seconds += 1;
+  //   console.log(seconds);
+  // }, 1000);
 
-  onDestroy(() => {
-    console.log("onDestroy");
-    clearInterval(tick);
-  });
+  // onDestroy(() => {
+  //   console.log("onDestroy");
+  //   clearInterval(tick);
+  // });
 </script>
 
 <style>
@@ -61,14 +68,14 @@
 <Header />
 <!-- welcome section -->
 <!--breadcumb start here-->
-{#if data}
+{#if charity}
   <section class="xs-banner-inner-section parallax-window" style=
   "background-image:url('/assets/images/backgrounds/kat-yukawa-K0E6E0a0R3A-unsplash.jpg')">
     <div class="xs-black-overlay"></div>
     <div class="container">
       <div class="color-white xs-inner-banner-content">
         <h2>Donate Now</h2>
-        <p>{data.title}</p>
+        <p>{charity.title}</p>
         <ul class="xs-breadcumb">
           <li class="badge badge-pill badge-primary">
             <a href="/" class="color-white">Home /</a> Donate
@@ -84,13 +91,13 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="xs-donation-form-images"><img src=
-            "{data.thumbnail}" class="img-responsive" alt=
+            "{charity.thumbnail}" class="img-responsive" alt=
             "Family Images"></div>
           </div>
           <div class="col-lg-6">
             <div class="xs-donation-form-wraper">
               <div class="xs-heading xs-mb-30">
-                <h2 class="xs-title">{data.title}</h2>
+                <h2 class="xs-title">{charity.title}</h2>
                 <p class="small">To learn more about make donate charity
                   with us visit our "<span class="color-green">Contact
                     us</span>" site. By calling <span class=
