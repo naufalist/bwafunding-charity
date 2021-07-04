@@ -1,10 +1,10 @@
 <script>
-  // import {
-  //   onMount,
-  //   onDestroy,
-  //   beforeUpdate,
-  //   afterUpdate
-  // } from 'svelte';
+  import {
+    onMount,
+    // onDestroy,
+    // beforeUpdate,
+    // afterUpdate
+  } from 'svelte';
 
   import CharityList from "../components/CharityList.svelte";
   import Header from '../components/Header.svelte';
@@ -12,11 +12,17 @@
   import Promo from '../components/Promo.svelte';
   import Footer from '../components/Footer.svelte';
 
-  import {
-    charities
-  } from "../data/charities.js";
+  // import {
+  //   charities
+  // } from "../data/charities.js";
 
   let title = "Charity";
+  let charities = [];
+
+  onMount(async function() {
+    const res = await fetch('https://charity-api-bwa.herokuapp.com/charities')
+    charities = await res.json()
+  });
 
   // onMount(function() {
   //   console.log("onMount")
