@@ -1,4 +1,5 @@
 <script>
+  import router from 'page';
   import {
     onMount,
     // onDestroy,
@@ -29,9 +30,29 @@
     console.log("Button click");
   }
 
-  function handleForm(event) {
+  async function handleForm(event) {
+    // con  sole.log(amount);
+    // console.log(charity);
+    charity.pledged = charity.pledged + parseInt(amount);
+    // console.log(charity);
+    try {
+      const res = await fetch(`https://charity-api-bwa.herokuapp.com/charities/${params.id}`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(charity)
+      });
+      console.log(res);
+      // redirection
+      router.redirect("/success");
+    } catch (error) {
+      console.log(error);
+    }
+
+
     // event.preventDefault();`
-    console.log("Form submitted");
+    // console.log("Form submitted");
   }
 
   onMount(async function() {
@@ -120,30 +141,30 @@
                       Donation amount
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="text" name="amount" id="xs-donate-amount" class="form-control" placeholder="Your donation in Rupiah" bind:value={amount}>
+                    <input type="text" name="amount" id="xs-donate-amount" class="form-control" placeholder="Your donation in Rupiah" bind:value={amount} required="true">
                   </div>
                   <div class="xs-input-group">
                     <label for="xs-donate-name">
                       Your Name
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="text" name="name" id="xs-donate-name" class="form-control" placeholder="Your awesome name" bind:value={name}>
+                    <input type="text" name="name" id="xs-donate-name" class="form-control" placeholder="Your awesome name" bind:value={name} required="true">
                   </div>
                   <div class="xs-input-group">
                     <label for="xs-donate-email">
                       Your Email
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="email" name="email" id="xs-donate-email" class="form-control" placeholder="email@awesome.com" bind:value={email}>
+                    <input type="email" name="email" id="xs-donate-email" class="form-control" placeholder="email@awesome.com" bind:value={email} required="true">
                   </div>
                   <div class="xs-input-group" id="xs-input-checkbox">
-                    <input type="checkbox" name="agree" id="xs-donate-agree" />
+                    <input type="checkbox" name="agree" id="xs-donate-agree" bind:checked={agree} />
                     <label for="xs-donate-agree">
                       I Agree
                       <span class="color-light-red">**</span>
                     </label>
                   </div>
-                <button type="submit" on:click|once={handleButtonClick} class="btn btn-warning"><span class=
+                <button type="submit" disabled={!agree} class="btn btn-warning"><span class=
                 "badge"><i class="fa fa-heart"></i></span> Donate
               now</button>
               </form><!-- .xs-donation-form #xs-donation-form END -->
