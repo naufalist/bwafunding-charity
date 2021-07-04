@@ -30,7 +30,7 @@
   }
 
   function handleForm(event) {
-    // event.preventDefault();
+    // event.preventDefault();`
     console.log("Form submitted");
   }
 
