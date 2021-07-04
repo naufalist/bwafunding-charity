@@ -13,7 +13,7 @@
 
   export let params;
   // let data
-  let charity;
+  let charity, amount, name, email, agree = false;
   // let seconds = 0;
 
   async function getCharity(id) {
@@ -23,6 +23,15 @@
     // return charities.find(function(charity) {
     //   return charity.id === parseInt(id);
     // });
+  }
+
+  function handleButtonClick() {
+    console.log("Button click");
+  }
+
+  function handleForm(event) {
+    // event.preventDefault();
+    console.log("Form submitted");
   }
 
   onMount(async function() {
@@ -104,28 +113,28 @@
                     "color-green">+44(0) 800 883 8450</span>.</p><span class=
                     "xs-separetor v2"></span>
               </div><!-- .xs-heading end -->
-              <form action="#" method="post" id="xs-donation-form" class=
+              <form on:submit|preventDefault={handleForm} action="#" method="post" id="xs-donation-form" class=
               "xs-donation-form" name="xs-donation-form">
                   <div class="xs-input-group">
                     <label for="xs-donate-name">
                       Donation amount
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="text" name="amoount" id="xs-donate-amount" class="form-control" placeholder="Minimum of $5">
+                    <input type="text" name="amount" id="xs-donate-amount" class="form-control" placeholder="Your donation in Rupiah" bind:value={amount}>
                   </div>
                   <div class="xs-input-group">
                     <label for="xs-donate-name">
                       Your Name
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="text" name="name" id="xs-donate-name" class="form-control" placeholder="Your awesome name">
+                    <input type="text" name="name" id="xs-donate-name" class="form-control" placeholder="Your awesome name" bind:value={name}>
                   </div>
                   <div class="xs-input-group">
                     <label for="xs-donate-email">
                       Your Email
                       <span class="color-light-red">**</span>
                     </label>
-                    <input type="email" name="email" id="xs-donate-email" class="form-control" placeholder="email@awesome.com">
+                    <input type="email" name="email" id="xs-donate-email" class="form-control" placeholder="email@awesome.com" bind:value={email}>
                   </div>
                   <div class="xs-input-group" id="xs-input-checkbox">
                     <input type="checkbox" name="agree" id="xs-donate-agree" />
@@ -134,7 +143,7 @@
                       <span class="color-light-red">**</span>
                     </label>
                   </div>
-                <button type="submit" class="btn btn-warning"><span class=
+                <button type="submit" on:click|once={handleButtonClick} class="btn btn-warning"><span class=
                 "badge"><i class="fa fa-heart"></i></span> Donate
               now</button>
               </form><!-- .xs-donation-form #xs-donation-form END -->
